@@ -3,7 +3,7 @@ using namespace std;
 
 struct NODE{
     int nilai;
-    NODE *next;
+    NODE *prev;
 };
 
 // Inisialisai awal
@@ -40,17 +40,8 @@ int main(){
 void MasukkanNilai(int inputan){
     NODE *node_inputan = new NODE;
     node_inputan -> nilai = inputan;
-    node_inputan -> next = NULL;
-
-    if (head == NULL){
-        head = node_inputan;
-        tail = head;
-    }
-    else{
-        tail -> next = node_inputan;
-        tail = node_inputan;
-    }
-    
+    node_inputan -> prev = head;
+    head = node_inputan;
 }
 
 void HapusDariStack(){
@@ -66,14 +57,9 @@ void HapusDariStack(){
         return;
     }
     
-    NODE *temp = head; // Hapus belakang
-    while (temp -> next != tail){
-        temp = temp -> next;
-    }
-
-    delete tail;
-    tail = temp;
-    tail -> next = NULL;
+    NODE *temp = head; // Hapus paling atas
+    head = head -> prev;
+    delete temp;
 }
 
 void TampilkanStack(){
@@ -81,7 +67,7 @@ void TampilkanStack(){
     cout << "\nIsi Stack : \n\t";
     while (temp != NULL){
         cout << temp -> nilai << " -> ";
-        temp = temp -> next;
+        temp = temp -> prev;
     }
     cout << "NULL\n";
 }
